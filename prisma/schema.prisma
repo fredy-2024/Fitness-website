@@ -27,7 +27,6 @@ enum MuscleGroup {
   FULL_BODY
 }
 
-
 enum Difficulty {
   BEGINNER
   INTERMEDIATE
@@ -46,27 +45,27 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  password      String?   // Nullable for OAuth
+  password String? // Nullable for OAuth
 
   // Application specific
-  workouts      WorkoutTemplate[]
-  logs          WorkoutLog[]
-  profile       Profile?
+  workouts WorkoutTemplate[]
+  logs     WorkoutLog[]
+  profile  Profile?
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?
-  access_token       String?
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -90,76 +89,84 @@ model VerificationToken {
 }
 
 model Profile {
-  id              String    @id @default(cuid())
-  userId          String    @unique
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id              String      @id @default(cuid())
+  userId          String      @unique
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   bio             String?
   website         String?
-  weight          Float?    // Current weight in kg
-  height          Float?    // Height in cm
-  goal            String?   // e.g., "Strength", "Hypertrophy"
-  experienceLevel Difficulty?   // "Beginner", "Intermediate", "Advanced"
+  weight          Float? // Current weight in kg
+  height          Float? // Height in cm
+  goal            String? // e.g., "Strength", "Hypertrophy"
+  experienceLevel Difficulty? // "Beginner", "Intermediate", "Advanced"
 }
 
 model Program {
-  id          String   @id @default(cuid())
+  id          String     @id @default(cuid())
   name        String
   description String?
-  price       Float    @default(0)
+  price       Float      @default(0)
   difficulty  Difficulty
-  duration    Int      // Duration in weeks
-  
-  workouts    WorkoutTemplate[]
+  duration    Int // Duration in weeks
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  workouts WorkoutTemplate[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Exercise {
-  id          String      @id @default(cuid())
-  name        String
-  description String?
-  muscleGroup MuscleGroup
-  videoUrl    String?
-  gifUrl      String?
-  instructions String?    // Step-by-step text
-  equipment   String?
-  
+  id           String      @id @default(cuid())
+  name         String
+  description  String?
+  muscleGroup  MuscleGroup
+  videoUrl     String?
+  gifUrl       String?
+  instructions String? // Step-by-step text
+  equipment    String?
+
   workoutExercises WorkoutExercise[]
   setLogs          SetLog[]
 }
 
 model WorkoutTemplate {
-  id          String    @id @default(cuid())
+  id          String     @id @default(cuid())
   name        String
   description String?
   difficulty  Difficulty @default(BEGINNER)
-  isPublic    Boolean   @default(false)
-  
-  programId   String?
-  program     Program?  @relation(fields: [programId], references: [id])
-  
-  authorId    String
-  author      User      @relation(fields: [authorId], references: [id])
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  isPublic    Boolean    @default(false)
 
-  exercises   WorkoutExercise[]
-  logs        WorkoutLog[]
+  programId String?
+  program   Program? @relation(fields: [programId], references: [id])
+
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  exercises WorkoutExercise[]
+  logs      WorkoutLog[]
 }
 
 model WorkoutExercise {
-  id                String          @id @default(cuid())
-  workoutTemplateId String
-  workoutTemplate   WorkoutTemplate @relation(fields: [workoutTemplateId], references: [id], onDelete: Cascade)
-  exerciseId        String
-  exercise          Exercise        @relation(fields: [exerciseId], references: [id])
-  order             Int             // Initial order within workout
-  sets              Int?            // Target sets
-  reps              Int?            // Target reps
-  restTime          Int?            // Target rest in seconds
+  id                 String          @id @default(cuid())
+  workoutTemplateId  String
+  workoutTemplate    WorkoutTemplate @relation(fields: [workoutTemplateId], references: [id], onDelete: Cascade)
+  exerciseId         String?
+  exercise           Exercise?       @relation(fields: [exerciseId], references: [id])
+  externalExerciseId String?
+  exerciseName       String?
+  bodyPart           String?
+  target             String?
+  equipment          String?
+  gifUrl             String?
+  instructions       String?
+  order              Int // Initial order within workout
+  sets               Int? // Target sets
+  reps               Int? // Target reps
+  restTime           Int? // Target rest in seconds
 
   @@index([workoutTemplateId])
+  @@index([externalExerciseId])
 }
 
 model WorkoutLog {
@@ -168,25 +175,24 @@ model WorkoutLog {
   user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   workoutTemplateId String?
   workoutTemplate   WorkoutTemplate? @relation(fields: [workoutTemplateId], references: [id])
-  name              String           // Copied from template or custom
+  name              String // Copied from template or custom
   startedAt         DateTime         @default(now())
   endedAt           DateTime?
   notes             String?
 
-  sets              SetLog[]
+  sets SetLog[]
 }
 
 model SetLog {
-  id           String      @id @default(cuid())
+  id           String     @id @default(cuid())
   workoutLogId String
-  workoutLog   WorkoutLog  @relation(fields: [workoutLogId], references: [id], onDelete: Cascade)
+  workoutLog   WorkoutLog @relation(fields: [workoutLogId], references: [id], onDelete: Cascade)
   exerciseId   String
-  exercise     Exercise    @relation(fields: [exerciseId], references: [id])
-  weight       Float       // Weight used in kg
+  exercise     Exercise   @relation(fields: [exerciseId], references: [id])
+  weight       Float // Weight used in kg
   reps         Int
-  rpe          Float?      // Rate of Perceived Exertion (1-10)
-  completedAt  DateTime    @default(now())
+  rpe          Float? // Rate of Perceived Exertion (1-10)
+  completedAt  DateTime   @default(now())
 
   @@index([workoutLogId])
 }
-

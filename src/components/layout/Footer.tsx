@@ -3,7 +3,7 @@ import { Dumbbell, Instagram, Twitter, Youtube } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="mt-20 border-t border-white/10 bg-[#07101d]/80">
+    <footer className="mt-20 border-t border-violet-500/20 bg-[#09090f]/80">
       <div className="section-shell py-14">
         <div className="grid gap-10 md:grid-cols-4">
           <div className="space-y-4">

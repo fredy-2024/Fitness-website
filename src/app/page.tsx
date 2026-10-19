@@ -34,7 +34,7 @@ export default function Home() {
       <Navbar />
 
       <section className="relative pt-28 pb-20 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(242,182,109,0.25),transparent_35%),radial-gradient(circle_at_90%_10%,rgba(52,198,211,0.2),transparent_35%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(139,92,246,0.25),transparent_35%),radial-gradient(circle_at_90%_10%,rgba(168,85,247,0.18),transparent_35%)]" />
         <div className="section-shell relative">
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div>
@@ -62,7 +62,7 @@ export default function Home() {
             </div>
 
             <div className="premium-card p-5 md:p-7">
-              <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-[#10243c] via-[#0d1626] to-[#1a2839] p-6">
+              <div className="rounded-2xl border border-violet-500/20 bg-gradient-to-br from-[#120d1d] via-[#09090f] to-[#1b102a] p-6">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2 text-primary">
                     <Dumbbell className="w-5 h-5" />
@@ -111,7 +111,7 @@ export default function Home() {
 
       <section className="py-20">
         <div className="section-shell">
-          <div className="premium-card p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-gradient-to-r from-[#0f2138] to-[#14263a]">
+          <div className="premium-card p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-gradient-to-r from-[#120d1d] to-[#1a1028]">
             <div>
               <p className="text-primary uppercase tracking-[0.2em] text-xs">Membership</p>
               <h3 className="mt-2 text-3xl md:text-4xl font-semibold">Start your premium fitness phase</h3>

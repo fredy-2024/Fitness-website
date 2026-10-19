@@ -20,6 +20,54 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Authentication
+
+Authentication supports email/password accounts and Google sign-in. The Google
+option is available only when both OAuth credentials are configured.
+
+Add these values to your ignored `.env.local` file:
+
+```env
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=replace-with-a-long-random-secret
+GOOGLE_CLIENT_ID=your-google-oauth-client-id
+GOOGLE_CLIENT_SECRET=your-google-oauth-client-secret
+```
+
+Generate the secret with `openssl rand -base64 32`.
+Create a Google OAuth web client in Google Cloud Console and add
+`http://localhost:3000/api/auth/callback/google` as an authorized redirect URI.
+For production, set `NEXTAUTH_URL`, the secret, and both Google credentials in
+your hosting provider's environment settings, and add
+`https://your-domain.example/api/auth/callback/google` to the Google OAuth client.
+Keep all secrets out of source control. Email/password sign-in remains available
+when Google OAuth credentials are not configured.
+
+## ExerciseDB API
+
+The exercise library proxies ExerciseDB through the server so the RapidAPI key
+is never sent to the browser. Set `EXERCISEDB_API_KEY` in `.env.local` and
+in your production environment. Create or rotate the RapidAPI key if the one
+you shared in chat is no longer private.
+
+The library and workout builder use ExerciseDB's body-part, target-muscle,
+equipment, name-search, and individual-exercise endpoints. Workout exercises
+are saved as snapshots of the selected ExerciseDB data, so existing workouts
+remain readable if the provider later changes its catalog. After deploying
+the updated schema, run `npx prisma db push` to add the nullable snapshot fields
+while preserving existing local exercises and workouts.
+
+Exercise demonstrations are served from `/api/exercise-image?id=<exerciseId>`.
+This authenticated image proxy uses the server-side `EXERCISEDB_API_KEY`
+and requests 180px media from ExerciseDB; do not place the RapidAPI key in
+client-side code or a checked-in environment example.
+
+Exercise lists request 10 results at a time by default, sorted by ID ascending,
+starting at offset 0. The library lets you change page size, sort field/order,
+and navigate with the API's `limit`, `sortMethod`, `sortOrder`, and `offset`
+parameters. Both exercise browsing and workout creation initially select the
+`assisted` equipment category when it is offered by ExerciseDB.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

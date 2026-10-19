@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Loader2 } from "lucide-react"
+import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton"
 
 export default function LoginPage() {
     const router = useRouter()
@@ -47,7 +48,9 @@ export default function LoginPage() {
                 </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+            <GoogleSignInButton dividerLabel="or sign in with email" />
+
+            <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-4">
                     <div>
                         <label htmlFor="email" className="sr-only">
@@ -58,6 +61,8 @@ export default function LoginPage() {
                             name="email"
                             type="email"
                             autoComplete="email"
+                            autoCapitalize="none"
+                            spellCheck={false}
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}

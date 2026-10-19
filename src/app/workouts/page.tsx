@@ -21,7 +21,11 @@ type Workout = {
         reps: number | null
         exercise: {
             name: string
-        }
+        } | null
+        exerciseName: string | null
+        bodyPart: string | null
+        target: string | null
+        equipment: string | null
     }[]
 }
 
@@ -107,8 +111,15 @@ export default function WorkoutsPage() {
                                     <div className="space-y-2 mb-6">
                                         {workout.exercises.slice(0, 3).map((ex) => (
                                             <div key={ex.id} className="text-sm text-gray-300 flex justify-between">
-                                                <span>{ex.exercise.name}</span>
-                                                <span className="text-gray-500">{ex.sets}x{ex.reps}</span>
+                                                <span className="min-w-0 truncate">
+                                                    {ex.exerciseName || ex.exercise?.name || "Exercise"}
+                                                    {(ex.bodyPart || ex.target) && (
+                                                        <span className="ml-2 text-xs text-gray-500 capitalize">
+                                                            {ex.bodyPart || ex.target}
+                                                        </span>
+                                                    )}
+                                                </span>
+                                                <span className="shrink-0 text-gray-500">{ex.sets}x{ex.reps}</span>
                                             </div>
                                         ))}
                                         {workout.exercises.length > 3 && (
@@ -123,9 +134,12 @@ export default function WorkoutsPage() {
                                             <UserIcon className="h-3 w-3" />
                                             {workout.author.name || "Unknown"}
                                         </div>
-                                        <button className="text-primary hover:text-white transition-colors">
+                                        <Link
+                                            href={`/workouts/${encodeURIComponent(workout.id)}/start`}
+                                            className="text-primary hover:text-white transition-colors"
+                                        >
                                             Start Workout &rarr;
-                                        </button>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

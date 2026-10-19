@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Loader2 } from "lucide-react"
+import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton"
 
 export default function RegisterPage() {
     const router = useRouter()
@@ -53,7 +54,9 @@ export default function RegisterPage() {
                 </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+            <GoogleSignInButton dividerLabel="or sign up with email" />
+
+            <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-4">
                     <div>
                         <label htmlFor="name" className="sr-only">
@@ -65,6 +68,8 @@ export default function RegisterPage() {
                             type="text"
                             autoComplete="name"
                             required
+                            minLength={2}
+                            maxLength={100}
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-700 bg-gray-900 placeholder-gray-500 text-white rounded-t-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
@@ -80,6 +85,8 @@ export default function RegisterPage() {
                             name="email"
                             type="email"
                             autoComplete="email"
+                            autoCapitalize="none"
+                            spellCheck={false}
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -97,6 +104,8 @@ export default function RegisterPage() {
                             type="password"
                             autoComplete="new-password"
                             required
+                            minLength={8}
+                            maxLength={72}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-700 bg-gray-900 placeholder-gray-500 text-white rounded-b-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm border-t-0"

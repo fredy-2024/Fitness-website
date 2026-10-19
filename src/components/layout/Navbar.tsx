@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Dumbbell, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { signOut, useSession } from "next-auth/react";
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -18,6 +19,8 @@ const navItems = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const { status } = useSession();
+  const isAuthenticated = status === "authenticated";
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -32,7 +35,7 @@ export function Navbar() {
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300 border-b",
         scrolled
-          ? "bg-[#081321]/85 backdrop-blur-xl border-white/15"
+          ? "bg-[#09090f]/85 backdrop-blur-xl border-violet-500/20"
           : "bg-transparent border-transparent"
       )}
     >
@@ -41,7 +44,7 @@ export function Navbar() {
           <div className="rounded-lg p-1.5 bg-primary/90 text-primary-foreground group-hover:scale-105 transition-transform">
             <Dumbbell className="w-5 h-5" />
           </div>
-          <span className="font-[var(--font-display)] text-3xl leading-none tracking-wide">
+          <span className="font-(--font-display) text-3xl leading-none tracking-wide">
             ZenFit
           </span>
         </Link>
@@ -62,16 +65,31 @@ export function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-3">
-          <Link href="/login">
-            <Button variant="ghost" className="text-white hover:bg-white/10">
-              Login
-            </Button>
-          </Link>
-          <Link href="/register">
-            <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-              Join Elite
-            </Button>
-          </Link>
+          {isAuthenticated ? (
+            <>
+              <Link href="/dashboard">
+                <Button variant="ghost" className="text-white hover:bg-white/10">
+                  Dashboard
+                </Button>
+              </Link>
+              <Button variant="outline" className="border-white/20 bg-transparent text-white hover:bg-white/10" onClick={() => signOut({ callbackUrl: "/" })}>
+                Sign out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link href="/login">
+                <Button variant="ghost" className="text-white hover:bg-white/10">
+                  Login
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                  Join Elite
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
 
         <button className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
@@ -83,7 +101,7 @@ export function Navbar() {
         <motion.div
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden border-t border-white/10 bg-[#081321]/95 backdrop-blur-xl"
+          className="md:hidden border-t border-violet-500/20 bg-[#09090f]/95 backdrop-blur-xl"
         >
           <div className="section-shell py-4 flex flex-col gap-3">
             {navItems.map((item) => (
@@ -100,16 +118,31 @@ export function Navbar() {
               </Link>
             ))}
             <div className="pt-3 flex flex-col gap-2">
-              <Link href="/login" onClick={() => setIsOpen(false)}>
-                <Button variant="outline" className="w-full border-white/20 bg-transparent text-white hover:bg-white/10">
-                  Login
-                </Button>
-              </Link>
-              <Link href="/register" onClick={() => setIsOpen(false)}>
-                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                  Join Elite
-                </Button>
-              </Link>
+              {isAuthenticated ? (
+                <>
+                  <Link href="/dashboard" onClick={() => setIsOpen(false)}>
+                    <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
+                      Dashboard
+                    </Button>
+                  </Link>
+                  <Button variant="outline" className="w-full border-white/20 bg-transparent text-white hover:bg-white/10" onClick={() => signOut({ callbackUrl: "/" })}>
+                    Sign out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link href="/login" onClick={() => setIsOpen(false)}>
+                    <Button variant="outline" className="w-full border-white/20 bg-transparent text-white hover:bg-white/10">
+                      Login
+                    </Button>
+                  </Link>
+                  <Link href="/register" onClick={() => setIsOpen(false)}>
+                    <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
+                      Join Elite
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </motion.div>
