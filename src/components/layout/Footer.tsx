@@ -3,7 +3,7 @@ import { Dumbbell, Instagram, Twitter, Youtube } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="mt-20 border-t border-violet-500/20 bg-[#09090f]/80">
+    <footer className="mt-20 border-t border-border bg-[#0B1220]/90">
       <div className="section-shell py-14">
         <div className="grid gap-10 md:grid-cols-4">
           <div className="space-y-4">
@@ -11,7 +11,7 @@ export function Footer() {
               <div className="rounded-lg p-1.5 bg-primary text-primary-foreground">
                 <Dumbbell className="w-5 h-5" />
               </div>
-              <span className="font-[var(--font-display)] text-3xl leading-none">ZenFit</span>
+              <span className="font-display text-3xl leading-none">ZenFit</span>
             </Link>
             <p className="text-sm text-slate-300 leading-relaxed">
               Athlete-grade coaching platform for people who train with intent.

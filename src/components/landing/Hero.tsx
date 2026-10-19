@@ -2,6 +2,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
@@ -10,11 +11,14 @@ export function Hero() {
         <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
             {/* Background Image with Overlay */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/30 z-10" />
-                <img
+                <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-black/30 z-10" />
+                <Image
                     src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2070&auto=format&fit=crop"
                     alt="Fitness Background"
-                    className="w-full h-full object-cover"
+                    fill
+                    unoptimized
+                    sizes="100vw"
+                    className="object-cover"
                 />
             </div>
 
@@ -30,7 +34,7 @@ export function Hero() {
                     </span>
                     <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tight mb-6 uppercase italic">
                         Transform Your <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-purple-500 to-fuchsia-500">
+                        <span className="text-transparent bg-clip-text bg-linear-to-r from-violet-400 via-purple-500 to-fuchsia-500">
                             Body & Mind
                         </span>
                     </h1>
@@ -61,7 +65,7 @@ export function Hero() {
                 transition={{ delay: 1, duration: 1 }}
                 className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20"
             >
-                <div className="w-[30px] h-[50px] rounded-full border-2 border-white/20 flex justify-center p-2">
+                <div className="w-7.5 h-12.5 rounded-full border-2 border-white/20 flex justify-center p-2">
                     <motion.div
                         animate={{ y: [0, 12, 0] }}
                         transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}

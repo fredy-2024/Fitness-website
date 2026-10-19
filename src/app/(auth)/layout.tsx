@@ -10,7 +10,7 @@ export default function AuthLayout({
                 <div className="absolute bottom-[-20%] right-[-20%] w-[70%] h-[70%] bg-secondary/20 blur-[150px] rounded-full mix-blend-screen" />
 
                 <div className="relative z-10 text-center space-y-6 max-w-lg px-8">
-                    <h1 className="text-6xl font-black italic tracking-tighter uppercase text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-secondary">
+                    <h1 className="text-6xl font-black italic tracking-tighter uppercase text-transparent bg-clip-text bg-linear-to-r from-primary via-white to-secondary">
                         ZenFit
                     </h1>
                     <p className="text-2xl text-gray-400 font-light">

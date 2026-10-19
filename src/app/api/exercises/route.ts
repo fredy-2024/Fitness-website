@@ -20,6 +20,7 @@ export async function GET(req: Request) {
 
         return NextResponse.json(exercises)
     } catch (error) {
+        console.error("Failed to fetch exercises", error)
         return NextResponse.json({ error: "Failed to fetch exercises" }, { status: 500 })
     }
 }

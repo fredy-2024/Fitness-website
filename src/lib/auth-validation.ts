@@ -7,7 +7,7 @@ const emailSchema = z
     .max(254)
     .transform((email) => email.toLowerCase())
 
-const passwordSchema = z
+export const passwordSchema = z
     .string()
     .min(8)
     .max(72)

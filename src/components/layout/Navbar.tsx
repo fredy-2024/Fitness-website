@@ -35,7 +35,7 @@ export function Navbar() {
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300 border-b",
         scrolled
-          ? "bg-[#09090f]/85 backdrop-blur-xl border-violet-500/20"
+          ? "bg-[#0B1220]/90 backdrop-blur-xl border-border"
           : "bg-transparent border-transparent"
       )}
     >
@@ -101,7 +101,7 @@ export function Navbar() {
         <motion.div
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden border-t border-violet-500/20 bg-[#09090f]/95 backdrop-blur-xl"
+          className="md:hidden border-t border-border bg-[#0B1220]/95 backdrop-blur-xl"
         >
           <div className="section-shell py-4 flex flex-col gap-3">
             {navItems.map((item) => (

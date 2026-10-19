@@ -65,7 +65,7 @@ export function GoogleSignInButton({ dividerLabel }: { dividerLabel: string }) {
                         type="button"
                         onClick={handleGoogleSignIn}
                         disabled={isLoading}
-                        className="flex w-full items-center justify-center gap-3 rounded-md border border-violet-500/20 bg-white/[0.03] px-4 py-3 text-sm font-medium text-white transition hover:bg-violet-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-60"
+                        className="flex w-full items-center justify-center gap-3 rounded-md border border-violet-500/20 bg-white/3 px-4 py-3 text-sm font-medium text-white transition hover:bg-violet-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-60"
                     >
                         {isLoading ? (
                             <Loader2 className="h-5 w-5 animate-spin" />

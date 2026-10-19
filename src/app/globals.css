@@ -4,25 +4,25 @@
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
 
-  --color-background: #050507;
-  --color-foreground: #f5f3ff;
-  --color-primary: #8b5cf6;
-  --color-primary-foreground: #f5f3ff;
-  --color-secondary: #171321;
-  --color-secondary-foreground: #f5f3ff;
-  --color-accent: #a78bfa;
-  --color-accent-foreground: #120b1f;
+  --color-background: #080d18;
+  --color-foreground: #f8fafc;
+  --color-primary: #22d3ee;
+  --color-primary-foreground: #080d18;
+  --color-secondary: #151d2b;
+  --color-secondary-foreground: #f8fafc;
+  --color-accent: #263d4d;
+  --color-accent-foreground: #f8fafc;
   --color-destructive: #f25555;
   --color-destructive-foreground: #ffffff;
-  --color-muted: #1a1522;
-  --color-muted-foreground: #c4b5fd;
-  --color-card: #0d0b12;
-  --color-card-foreground: #f5f3ff;
-  --color-popover: #0d0b12;
-  --color-popover-foreground: #f5f3ff;
-  --color-border: #2a1f3d;
-  --color-input: #1d1627;
-  --color-ring: #8b5cf6;
+  --color-muted: #151d2b;
+  --color-muted-foreground: #94a3b8;
+  --color-card: #151d2b;
+  --color-card-foreground: #f8fafc;
+  --color-popover: #0b1220;
+  --color-popover-foreground: #f8fafc;
+  --color-border: #293548;
+  --color-input: #171f2d;
+  --color-ring: #22d3ee;
 }
 
 @layer base {
@@ -38,9 +38,9 @@
   body {
     @apply bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground;
     background-image:
-      radial-gradient(circle at 15% 10%, rgba(139, 92, 246, 0.28), transparent 40%),
-      radial-gradient(circle at 85% 10%, rgba(168, 85, 247, 0.18), transparent 38%),
-      linear-gradient(160deg, #020203 0%, #0b0b12 45%, #020203 100%);
+      radial-gradient(circle at 12% 4%, rgba(34, 211, 238, 0.09), transparent 34%),
+      radial-gradient(circle at 88% 12%, rgba(45, 212, 191, 0.06), transparent 30%),
+      linear-gradient(160deg, #080d18 0%, #0b1220 52%, #080d18 100%);
   }
 }
 
@@ -50,6 +50,6 @@
   }
 
   .premium-card {
-    @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm;
+    @apply rounded-2xl border border-border bg-[#151D2B]/80 backdrop-blur-sm;
   }
 }

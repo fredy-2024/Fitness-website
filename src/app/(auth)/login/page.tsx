@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
@@ -13,6 +13,19 @@ export default function LoginPage() {
     const [password, setPassword] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState("")
+    const [rememberEmail, setRememberEmail] = useState(true)
+
+    useEffect(() => {
+        try {
+            const rememberedEmail = window.localStorage.getItem("zenfit.rememberedEmail")
+            if (rememberedEmail) {
+                setEmail(rememberedEmail)
+                setRememberEmail(true)
+            }
+        } catch (storageError) {
+            console.warn("Could not load the remembered email from this browser.", storageError)
+        }
+    }, [])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -20,6 +33,16 @@ export default function LoginPage() {
         setError("")
 
         try {
+            try {
+                if (rememberEmail) {
+                    window.localStorage.setItem("zenfit.rememberedEmail", email.trim())
+                } else {
+                    window.localStorage.removeItem("zenfit.rememberedEmail")
+                }
+            } catch (storageError) {
+                console.warn("Could not save the remembered email in this browser.", storageError)
+            }
+
             const result = await signIn("credentials", {
                 email,
                 password,
@@ -86,11 +109,26 @@ export default function LoginPage() {
                             placeholder="Password"
                         />
                     </div>
+                    <label className="flex items-center gap-2 text-sm text-gray-400">
+                        <input
+                            type="checkbox"
+                            checked={rememberEmail}
+                            onChange={(event) => setRememberEmail(event.target.checked)}
+                            className="h-4 w-4 rounded border-gray-600 bg-gray-900 text-primary focus:ring-primary"
+                        />
+                        Remember email on this device
+                    </label>
                 </div>
 
                 {error && (
                     <div className="text-red-500 text-sm text-center">{error}</div>
                 )}
+
+                <div className="-mt-3 text-right text-sm">
+                    <Link href="/forgot-password" className="font-medium text-primary hover:text-primary/80">
+                        Forgot password?
+                    </Link>
+                </div>
 
                 <div>
                     <button

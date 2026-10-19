@@ -17,7 +17,7 @@ export default function ProgramsPage() {
       <section className="pt-28 pb-16">
         <div className="section-shell">
           <p className="text-primary uppercase text-xs tracking-[0.2em]">Programs</p>
-          <h1 className="mt-3 font-[var(--font-display)] text-6xl md:text-7xl leading-[0.95]">Premium Training Tracks</h1>
+          <h1 className="mt-3 font-display text-6xl md:text-7xl leading-[0.95]">Premium Training Tracks</h1>
           <p className="mt-4 max-w-2xl text-slate-300">
             Structured, coach-led programs with clear progression and measurable outcomes.
           </p>

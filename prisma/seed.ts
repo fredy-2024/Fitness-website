@@ -98,7 +98,7 @@ async function main() {
     // 3. Create Programs
 
     // Program 1: Hypertrophy Starter
-    const hypertrophyProgram = await prisma.program.create({
+    await prisma.program.create({
         data: {
             name: 'Hypertrophy Starter',
             description: 'Build muscle with this 4-week foundation program.',
@@ -140,7 +140,7 @@ async function main() {
     })
 
     // Program 2: 4-Week Weight Loss
-    const weightLossProgram = await prisma.program.create({
+    await prisma.program.create({
         data: {
             name: '4-Week Shred',
             description: 'High intensity workouts to burn fat and tone up.',

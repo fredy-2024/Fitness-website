@@ -27,11 +27,11 @@ type Workout = {
     exercises: WorkoutExercise[]
 }
 
-function getErrorMessage(data: unknown) {
+function getErrorMessage(data: unknown, fallback = "Unable to load this workout.") {
     if (typeof data === "object" && data !== null && "error" in data && typeof data.error === "string") {
         return data.error
     }
-    return "Unable to load this workout."
+    return fallback
 }
 
 export default function StartWorkoutPage() {
@@ -42,6 +42,8 @@ export default function StartWorkoutPage() {
     const [error, setError] = useState("")
     const [completed, setCompleted] = useState<string[]>([])
     const [workoutCompleted, setWorkoutCompleted] = useState(false)
+    const [completing, setCompleting] = useState(false)
+    const [completionError, setCompletionError] = useState("")
 
     useEffect(() => {
         const controller = new AbortController()
@@ -90,10 +92,26 @@ export default function StartWorkoutPage() {
         )
     }
 
-    const completeWorkout = () => {
-        if (!workout || workout.exercises.length === 0) return
-        setCompleted(workout.exercises.map((exercise) => exercise.id))
-        setWorkoutCompleted(true)
+    const completeWorkout = async () => {
+        if (!workout || workout.exercises.length === 0 || completing || workoutCompleted) return
+
+        setCompleting(true)
+        setCompletionError("")
+        try {
+            const response = await fetch(`/api/workouts/${encodeURIComponent(workout.id)}/complete`, {
+                method: "POST",
+            })
+            const data: unknown = await response.json()
+            if (!response.ok) {
+                throw new Error(getErrorMessage(data, "Failed to save workout completion."))
+            }
+            setCompleted(workout.exercises.map((exercise) => exercise.id))
+            setWorkoutCompleted(true)
+        } catch (error) {
+            setCompletionError(error instanceof Error ? error.message : "Failed to save workout completion.")
+        } finally {
+            setCompleting(false)
+        }
     }
 
     return (
@@ -115,7 +133,7 @@ export default function StartWorkoutPage() {
                     </div>
                 ) : workout ? (
                     <>
-                        <header className="mb-8 rounded-2xl border border-violet-500/20 bg-white/[0.03] p-6 md:p-8">
+                        <header className="mb-8 rounded-2xl border border-violet-500/20 bg-white/3 p-6 md:p-8">
                             <p className="text-sm uppercase tracking-[0.2em] text-primary">Workout in progress</p>
                             <h1 className="mt-2 text-4xl font-bold">{workout.name}</h1>
                             {workout.description && <p className="mt-3 text-gray-300">{workout.description}</p>}
@@ -224,15 +242,19 @@ export default function StartWorkoutPage() {
                             <div className="mt-8 flex justify-center">
                                 <button
                                     type="button"
-                                    onClick={completeWorkout}
+                                    onClick={() => void completeWorkout()}
+                                    disabled={completing}
                                     className="rounded-full bg-primary px-8 py-3 font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                                 >
-                                    Complete Workout
+                                    {completing ? "Saving completion..." : "Complete Workout"}
                                 </button>
                             </div>
                         )}
+                        {completionError && (
+                            <p role="alert" className="mt-4 text-center text-sm text-red-300">{completionError}</p>
+                        )}
                         {workoutCompleted && (
-                            <div role="status" className="mt-8 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/15 via-fuchsia-500/10 to-violet-500/15 p-8 text-center">
+                            <div role="status" className="mt-8 rounded-2xl border border-primary/30 bg-linear-to-br from-primary/15 via-fuchsia-500/10 to-violet-500/15 p-8 text-center">
                                 <p className="text-4xl" aria-hidden="true">🎉 💪 ✨</p>
                                 <h2 className="mt-3 text-3xl font-bold text-primary">Congratulations!</h2>
                                 <p className="mt-3 text-lg text-gray-200">You completed {workout.name}!</p>

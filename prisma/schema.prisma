@@ -51,6 +51,7 @@ model User {
   workouts WorkoutTemplate[]
   logs     WorkoutLog[]
   profile  Profile?
+  passwordResetTokens PasswordResetToken[]
 }
 
 model Account {
@@ -86,6 +87,18 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
 }
 
 model Profile {

@@ -18,7 +18,7 @@ export default function TrainersPage() {
       <section className="pt-28 pb-16">
         <div className="section-shell">
           <p className="text-primary uppercase text-xs tracking-[0.2em]">Coaches</p>
-          <h1 className="mt-3 font-[var(--font-display)] text-6xl md:text-7xl leading-[0.95]">Meet the Coaching Team</h1>
+          <h1 className="mt-3 font-display text-6xl md:text-7xl leading-[0.95]">Meet the Coaching Team</h1>
           <p className="mt-4 max-w-2xl text-slate-300">
             Certified professionals who focus on measurable performance and long-term adherence.
           </p>
@@ -34,7 +34,7 @@ export default function TrainersPage() {
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/55 to-transparent" />
                 </div>
                 <h2 className="mt-4 text-2xl font-semibold">{trainer.name}</h2>
                 <p className="mt-1 text-primary text-sm">{trainer.role}</p>
